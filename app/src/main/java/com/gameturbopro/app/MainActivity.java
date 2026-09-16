@@ -28,10 +28,12 @@ public class MainActivity extends AppCompatActivity {
     private GameLauncher gameLauncher;
     private GameProfileManager profileManager;
 
-    private final int WHITE = Color.rgb(245, 250, 255);
-    private final int MUTED = Color.rgb(125, 145, 165);
-    private final int CYAN = Color.rgb(0, 200, 255);
-    private final int GREEN = Color.rgb(0, 245, 160);
+    private static final int BG = Color.rgb(3, 5, 10);
+    private static final int WHITE = Color.rgb(245, 250, 255);
+    private static final int MUTED = Color.rgb(125, 145, 165);
+    private static final int GREEN = Color.rgb(0, 245, 160);
+    private static final int CYAN = Color.rgb(0, 200, 255);
+    private static final int RED = Color.rgb(255, 69, 103);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
         gameLauncher = new GameLauncher(this);
         profileManager = new GameProfileManager(this);
 
-        BottomNavigationView nav = findViewById(R.id.bottomNav);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
-        nav.setOnItemSelectedListener(item -> {
+        bottomNav.setOnItemSelectedListener(item -> {
+
             int id = item.getItemId();
 
             if (id == R.id.nav_home) {
@@ -81,153 +84,281 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        nav.setSelectedItemId(R.id.nav_home);
+        bottomNav.setSelectedItemId(R.id.nav_home);
     }
 
-    private void clear() {
+    private void clearContent() {
         content.removeAllViews();
     }
 
-    private LinearLayout page() {
+    private LinearLayout createPage() {
+
         LinearLayout layout = new LinearLayout(this);
+
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(16, 18, 16, 24);
-        layout.setBackgroundColor(Color.rgb(3, 5, 10));
+
+        layout.setPadding(
+                16,
+                18,
+                16,
+                28
+        );
+
+        layout.setBackgroundColor(BG);
+
         return layout;
     }
 
-    private ScrollView scroll(View view) {
-        ScrollView s = new ScrollView(this);
-        s.setFillViewport(true);
-        s.addView(view);
-        return s;
+    private ScrollView makeScroll(View view) {
+
+        ScrollView scrollView = new ScrollView(this);
+
+        scrollView.setFillViewport(true);
+
+        scrollView.addView(view);
+
+        return scrollView;
     }
 
-    private TextView text(String value, float size) {
-        TextView t = new TextView(this);
-        t.setText(value);
-        t.setTextColor(WHITE);
-        t.setTextSize(size);
-        t.setPadding(3, 4, 3, 4);
-        return t;
+    private TextView makeText(
+            String value,
+            float size
+    ) {
+
+        TextView textView = new TextView(this);
+
+        textView.setText(value);
+        textView.setTextColor(WHITE);
+        textView.setTextSize(size);
+
+        textView.setPadding(
+                4,
+                4,
+                4,
+                4
+        );
+
+        return textView;
     }
 
-    private TextView title(String value) {
-        TextView t = text(value, 24);
-        t.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        t.setPadding(4, 5, 4, 12);
-        return t;
+    private TextView makeTitle(String value) {
+
+        TextView textView = makeText(
+                value,
+                25
+        );
+
+        textView.setTypeface(
+                Typeface.DEFAULT,
+                Typeface.BOLD
+        );
+
+        textView.setPadding(
+                4,
+                6,
+                4,
+                8
+        );
+
+        return textView;
     }
 
-    private TextView muted(String value) {
-        TextView t = text(value, 12);
-        t.setTextColor(MUTED);
-        return t;
+    private TextView makeMuted(String value) {
+
+        TextView textView = makeText(
+                value,
+                12
+        );
+
+        textView.setTextColor(MUTED);
+
+        return textView;
     }
 
-    private LinearLayout card() {
-        LinearLayout c = new LinearLayout(this);
-        c.setOrientation(LinearLayout.VERTICAL);
-        c.setPadding(14, 12, 14, 12);
-        c.setBackgroundResource(R.drawable.bg_card);
+    private LinearLayout makeCard() {
 
-        LinearLayout.LayoutParams p =
+        LinearLayout card = new LinearLayout(this);
+
+        card.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+        card.setPadding(
+                14,
+                12,
+                14,
+                12
+        );
+
+        card.setBackgroundResource(
+                R.drawable.bg_card
+        );
+
+        LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(
-                        -1,
+                        LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 );
 
-        p.setMargins(0, 5, 0, 5);
-        c.setLayoutParams(p);
+        params.setMargins(
+                0,
+                5,
+                0,
+                5
+        );
 
-        return c;
+        card.setLayoutParams(params);
+
+        return card;
     }
 
-    private Button button(String label) {
-        Button b = new Button(this);
-        b.setText(label);
-        b.setTextColor(Color.BLACK);
-        b.setTextSize(14);
-        b.setAllCaps(false);
-        b.setGravity(Gravity.CENTER);
-        b.setBackgroundResource(R.drawable.bg_primary);
+    private Button makeButton(String label) {
 
-        LinearLayout.LayoutParams p =
-                new LinearLayout.LayoutParams(-1, 54);
+        Button button = new Button(this);
 
-        p.setMargins(0, 6, 0, 6);
-        b.setLayoutParams(p);
+        button.setText(label);
+        button.setTextColor(Color.BLACK);
+        button.setTextSize(14);
+        button.setAllCaps(false);
+        button.setGravity(Gravity.CENTER);
 
-        return b;
+        button.setBackgroundResource(
+                R.drawable.bg_primary
+        );
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        56
+                );
+
+        params.setMargins(
+                0,
+                6,
+                0,
+                6
+        );
+
+        button.setLayoutParams(params);
+
+        return button;
     }
 
-    private void status(
+    private void addStatus(
             LinearLayout parent,
-            String name,
+            String title,
             String value
     ) {
-        LinearLayout c = card();
 
-        TextView a = text(name, 14);
-        TextView b = text(value, 13);
-        b.setTextColor(GREEN);
+        LinearLayout card = makeCard();
 
-        c.addView(a);
-        c.addView(b);
+        TextView name = makeText(
+                title,
+                14
+        );
 
-        parent.addView(c);
+        TextView result = makeText(
+                value,
+                13
+        );
+
+        result.setTextColor(GREEN);
+
+        card.addView(name);
+        card.addView(result);
+
+        parent.addView(card);
     }
 
-    private void infoRow(
+    private void addInfoRow(
             LinearLayout parent,
-            String a,
-            String b,
-            String c
+            String first,
+            String second,
+            String third
     ) {
-        LinearLayout row = new LinearLayout(this);
-        row.setOrientation(LinearLayout.HORIZONTAL);
 
-        addInfo(row, a);
-        addInfo(row, b);
-        addInfo(row, c);
+        LinearLayout row =
+                new LinearLayout(this);
+
+        row.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+        addInfoBox(row, first);
+        addInfoBox(row, second);
+        addInfoBox(row, third);
 
         parent.addView(row);
     }
 
-    private void addInfo(
+    private void addInfoBox(
             LinearLayout row,
             String value
     ) {
-        LinearLayout c = card();
 
-        TextView t = text(value, 13);
-        t.setGravity(Gravity.CENTER);
+        LinearLayout box = makeCard();
 
-        c.addView(t);
+        box.setGravity(
+                Gravity.CENTER
+        );
 
-        LinearLayout.LayoutParams p =
-                new LinearLayout.LayoutParams(0, -2, 1);
+        TextView textView =
+                makeText(
+                        value,
+                        12
+                );
 
-        p.setMargins(3, 3, 3, 3);
+        textView.setGravity(
+                Gravity.CENTER
+        );
 
-        c.setLayoutParams(p);
+        box.addView(textView);
 
-        row.addView(c);
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1
+                );
+
+        params.setMargins(
+                3,
+                3,
+                3,
+                3
+        );
+
+        box.setLayoutParams(params);
+
+        row.addView(box);
     }
 
     private void showHome() {
-        clear();
 
-        LinearLayout p = page();
+        clearContent();
 
-        p.addView(title("⚡ GAME TURBO PRO"));
-        p.addView(muted("ULTIMATE GAMING CONTROL CENTER"));
+        LinearLayout page =
+                createPage();
 
-        LinearLayout device = card();
+        page.addView(
+                makeTitle(
+                        "⚡ GAME TURBO PRO"
+                )
+        );
+
+        page.addView(
+                makeMuted(
+                        "ULTIMATE GAMING CONTROL CENTER"
+                )
+        );
+
+        LinearLayout device =
+                makeCard();
 
         TextView model =
-                text(
-                        "📱 " + deviceMonitor.getModel(),
+                makeText(
+                        "📱 " +
+                                deviceMonitor.getModel(),
                         18
                 );
 
@@ -237,48 +368,77 @@ public class MainActivity extends AppCompatActivity {
         );
 
         device.addView(model);
+
         device.addView(
-                muted(deviceMonitor.getAndroidVersion())
-        );
-
-        p.addView(device);
-
-        infoRow(
-                p,
-                "DPI\n" + deviceMonitor.getDpi(),
-                "RESOLUTION\n" + deviceMonitor.getResolution(),
-                "REFRESH\n"
-                        + Math.round(
-                        deviceMonitor.getRefreshRate()
+                makeMuted(
+                        deviceMonitor.getAndroidVersion()
                 )
-                        + " Hz"
         );
 
-        infoRow(
-                p,
-                "🔋 BATTERY\n"
-                        + deviceMonitor.getBatteryPercent()
-                        + "%",
-                "🌡 TEMP\n"
-                        + deviceMonitor.getBatteryTemperature()
-                        + "°C",
-                "💾 RAM\n"
-                        + deviceMonitor.getRamInfo()
+        page.addView(device);
+
+        addInfoRow(
+                page,
+                "DPI\n" +
+                        deviceMonitor.getDpi(),
+
+                "RESOLUTION\n" +
+                        deviceMonitor.getResolution(),
+
+                "REFRESH\n" +
+                        Math.round(
+                                deviceMonitor.getRefreshRate()
+                        ) +
+                        " Hz"
         );
 
-        infoRow(
-                p,
-                "📶 NETWORK\n"
-                        + networkMonitor.getNetworkType(),
-                "PING\n"
-                        + ping(),
-                "MODE\nON"
+        int battery =
+                deviceMonitor.getBatteryPercent();
+
+        String batteryText =
+                battery < 0
+                        ? "N/A"
+                        : battery + "%";
+
+        float temperature =
+                deviceMonitor.getBatteryTemperature();
+
+        String temperatureText =
+                temperature < 0
+                        ? "N/A"
+                        : temperature + "°C";
+
+        addInfoRow(
+                page,
+                "🔋 BATTERY\n" +
+                        batteryText,
+
+                "🌡 TEMP\n" +
+                        temperatureText,
+
+                "💾 RAM\n" +
+                        deviceMonitor.getRamInfo()
         );
 
-        LinearLayout mode = card();
+        addInfoRow(
+                page,
+                "📶 NETWORK\n" +
+                        networkMonitor.getNetworkType(),
+
+                "PING\n" +
+                        getPingText(),
+
+                "MODE\nACTIVE"
+        );
+
+        LinearLayout mode =
+                makeCard();
 
         TextView modeTitle =
-                text("🎮 GAMING MODE", 17);
+                makeText(
+                        "🎮 GAMING MODE",
+                        17
+                );
 
         modeTitle.setTypeface(
                 Typeface.DEFAULT,
@@ -288,202 +448,271 @@ public class MainActivity extends AppCompatActivity {
         mode.addView(modeTitle);
 
         TextView active =
-                text("● ACTIVE", 14);
+                makeText(
+                        "● ACTIVE",
+                        14
+                );
 
         active.setTextColor(GREEN);
 
         mode.addView(active);
 
-        p.addView(mode);
+        page.addView(mode);
 
-        Button boost = button(
-                "⚡  BOOST NOW  ⚡"
-        );
+        Button boost =
+                makeButton(
+                        "⚡  BOOST NOW  ⚡"
+                );
 
         boost.setTextSize(19);
+
         boost.setTypeface(
                 Typeface.DEFAULT,
                 Typeface.BOLD
         );
 
-        boost.setOnClickListener(v -> showBoost());
-
-        p.addView(boost);
-
-        p.addView(
-                muted("PLAY SMARTER  ⚡  NOT HARDER")
+        boost.setOnClickListener(
+                v -> showBoost()
         );
 
-        content.addView(scroll(p));
+        page.addView(boost);
+
+        page.addView(
+                makeMuted(
+                        "PLAY SMARTER  ⚡  NOT HARDER"
+                )
+        );
+
+        content.addView(
+                makeScroll(page)
+        );
     }
 
-    private String ping() {
-        int value = networkMonitor.getPing();
+    private String getPingText() {
 
-        if (value < 0) {
+        int ping =
+                networkMonitor.getPing();
+
+        if (ping < 0) {
             return "N/A";
         }
 
-        return value + " ms";
+        return ping + " ms";
     }
 
     private void showBoost() {
-        clear();
 
-        LinearLayout p = page();
+        clearContent();
 
-        p.addView(title("⚡ BOOST MODE"));
+        LinearLayout page =
+                createPage();
 
-        LinearLayout hero = card();
-        hero.setGravity(Gravity.CENTER);
+        page.addView(
+                makeTitle(
+                        "⚡ BOOST MODE"
+                )
+        );
 
-        TextView icon = text("🎮", 50);
-        icon.setGravity(Gravity.CENTER);
+        LinearLayout hero =
+                makeCard();
+
+        hero.setGravity(
+                Gravity.CENTER
+        );
+
+        TextView icon =
+                makeText(
+                        "🎮",
+                        48
+                );
+
+        icon.setGravity(
+                Gravity.CENTER
+        );
 
         hero.addView(icon);
 
-        TextView h = text(
-                "BOOST MODE",
-                25
+        TextView heading =
+                makeText(
+                        "BOOST MODE",
+                        25
+                );
+
+        heading.setGravity(
+                Gravity.CENTER
         );
 
-        h.setTypeface(
+        heading.setTypeface(
                 Typeface.DEFAULT,
                 Typeface.BOLD
         );
 
-        h.setGravity(Gravity.CENTER);
+        hero.addView(heading);
 
-        hero.addView(h);
         hero.addView(
-                muted("Gaming optimization center")
+                makeMuted(
+                        "Gaming optimization center"
+                )
         );
 
-        p.addView(hero);
+        page.addView(hero);
 
-        status(
-                p,
+        addStatus(
+                page,
                 "🎮 Gaming Mode",
-                "ON"
+                "Available through Android settings"
         );
 
-        status(
-                p,
+        addStatus(
+                page,
                 "🔒 Keep Screen Awake",
-                "ON"
+                "Supported during app use"
         );
 
-        status(
-                p,
+        addStatus(
+                page,
                 "⭕ Immersive Mode",
                 "Supported where available"
         );
 
-        status(
-                p,
+        addStatus(
+                page,
                 "🔕 Do Not Disturb",
-                "OFF"
+                "Use Android permission/settings"
         );
 
-        p.addView(
-                text("QUICK SETTINGS", 17)
+        page.addView(
+                makeText(
+                        "QUICK SETTINGS",
+                        17
+                )
         );
 
         Button display =
-                button("🖥 Display Settings");
+                makeButton(
+                        "🖥 Display Settings"
+                );
 
         display.setOnClickListener(
                 v -> settingsHelper.openDisplay()
         );
 
-        p.addView(display);
+        page.addView(display);
 
         Button battery =
-                button("🔋 Battery Settings");
+                makeButton(
+                        "🔋 Battery Settings"
+                );
 
         battery.setOnClickListener(
                 v -> settingsHelper.openBattery()
         );
 
-        p.addView(battery);
+        page.addView(battery);
 
         Button gameMode =
-                button("🎮 Android Game Mode");
+                makeButton(
+                        "🎮 Android Game Mode"
+                );
 
         gameMode.setOnClickListener(
                 v -> settingsHelper.openGameMode()
         );
 
-        p.addView(gameMode);
+        page.addView(gameMode);
 
         Button dnd =
-                button("🔕 Do Not Disturb Settings");
+                makeButton(
+                        "🔕 Do Not Disturb Settings"
+                );
 
         dnd.setOnClickListener(
                 v -> settingsHelper.openDnd()
         );
 
-        p.addView(dnd);
+        page.addView(dnd);
 
         Button developer =
-                button("🛠 Developer Options");
+                makeButton(
+                        "🛠 Developer Options"
+                );
 
         developer.setOnClickListener(
                 v -> settingsHelper.openDeveloper()
         );
 
-        p.addView(developer);
+        page.addView(developer);
 
-        p.addView(
-                muted(
-                        "Only official Android capabilities are used."
+        page.addView(
+                makeMuted(
+                        "GAME TURBO PRO uses official Android APIs."
                 )
         );
 
-        content.addView(scroll(p));
+        content.addView(
+                makeScroll(page)
+        );
     }
 
     private void showDpi() {
-        clear();
 
-        LinearLayout p = page();
+        clearContent();
 
-        p.addView(title("◉ DPI MANAGER"));
+        LinearLayout page =
+                createPage();
 
-        LinearLayout current = card();
-        current.setGravity(Gravity.CENTER);
+        page.addView(
+                makeTitle(
+                        "◉ DPI MANAGER"
+                )
+        );
 
-        TextView value =
-                text(
+        LinearLayout current =
+                makeCard();
+
+        current.setGravity(
+                Gravity.CENTER
+        );
+
+        TextView dpi =
+                makeText(
                         String.valueOf(
                                 deviceMonitor.getDpi()
                         ),
                         40
                 );
 
-        value.setTypeface(
+        dpi.setGravity(
+                Gravity.CENTER
+        );
+
+        dpi.setTypeface(
                 Typeface.DEFAULT,
                 Typeface.BOLD
         );
 
-        value.setGravity(Gravity.CENTER);
-
-        current.addView(value);
+        current.addView(dpi);
 
         TextView label =
-                muted("CURRENT DPI / DENSITY");
+                makeMuted(
+                        "CURRENT DPI / DENSITY"
+                );
 
-        label.setGravity(Gravity.CENTER);
+        label.setGravity(
+                Gravity.CENTER
+        );
 
         current.addView(label);
 
-        p.addView(current);
+        page.addView(current);
 
-        p.addView(
-                muted("DPI PRESETS")
+        page.addView(
+                makeMuted(
+                        "DPI PRESETS"
+                )
         );
 
-        int[] values = {
+        int[] presets = {
                 360,
                 420,
                 480,
@@ -491,63 +720,86 @@ public class MainActivity extends AppCompatActivity {
                 600
         };
 
-        for (int dpi : values) {
+        for (int value : presets) {
 
-            Button b =
-                    button("DPI  " + dpi);
+            Button button =
+                    makeButton(
+                            "DPI  " + value
+                    );
 
-            int selected = dpi;
+            final int selectedDpi =
+                    value;
 
-            b.setOnClickListener(
-                    v -> dpiDialog(selected)
+            button.setOnClickListener(
+                    v -> showDpiDialog(
+                            selectedDpi
+                    )
             );
 
-            p.addView(b);
+            page.addView(button);
         }
 
-        Button dev =
-                button(
+        Button developer =
+                makeButton(
                         "⚙ OPEN DEVELOPER OPTIONS"
                 );
 
-        dev.setOnClickListener(
+        developer.setOnClickListener(
                 v -> dpiManager.openDeveloperOptions()
         );
 
-        p.addView(dev);
+        page.addView(developer);
 
-        LinearLayout note = card();
+        LinearLayout note =
+                makeCard();
 
-        note.addView(
-                text("ⓘ IMPORTANT", 15)
+        TextView noteTitle =
+                makeText(
+                        "ⓘ IMPORTANT",
+                        15
+                );
+
+        noteTitle.setTypeface(
+                Typeface.DEFAULT,
+                Typeface.BOLD
         );
 
+        note.addView(noteTitle);
+
         note.addView(
-                muted(
-                        "Normal Android applications cannot "
+                makeMuted(
+                        "A normal Android application cannot "
                                 + "silently change system DPI on "
-                                + "standard devices."
+                                + "standard devices. This app "
+                                + "opens official Android controls."
                 )
         );
 
-        p.addView(note);
+        page.addView(note);
 
-        content.addView(scroll(p));
+        content.addView(
+                makeScroll(page)
+        );
     }
 
-    private void dpiDialog(int dpi) {
+    private void showDpiDialog(
+            int dpi
+    ) {
 
         new AlertDialog.Builder(this)
-                .setTitle("DPI " + dpi)
+                .setTitle(
+                        "DPI " + dpi
+                )
                 .setMessage(
-                        "Android may require Developer Options, "
-                                + "ADB or OEM-specific permissions "
-                                + "to actually change system density."
+                        "To change system density, Android "
+                                + "may require Developer Options, "
+                                + "ADB or OEM-specific controls."
                 )
                 .setPositiveButton(
                         "OPEN SETTINGS",
-                        (d, w) ->
-                                dpiManager.openDeveloperOptions()
+                        (dialog, which) ->
+                                dpiManager
+                                        .openDeveloperOptions()
                 )
                 .setNegativeButton(
                         "CANCEL",
@@ -557,310 +809,92 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showGames() {
-        clear();
 
-        LinearLayout p = page();
+        clearContent();
 
-        p.addView(title("🎮 MY GAMES"));
+        LinearLayout page =
+                createPage();
 
-        p.addView(
-                muted("INSTALLED LAUNCHABLE APPS")
+        page.addView(
+                makeTitle(
+                        "🎮 MY GAMES"
+                )
         );
 
-        List<
-                android.content.pm.ResolveInfo
-                > apps =
+        page.addView(
+                makeMuted(
+                        "INSTALLED LAUNCHABLE APPS"
+                )
+        );
+
+        List<android.content.pm.ResolveInfo> apps =
                 gameLauncher.getLaunchableApps();
 
-        if (apps.isEmpty()) {
+        if (apps == null || apps.isEmpty()) {
 
-            LinearLayout empty = card();
+            LinearLayout empty =
+                    makeCard();
 
             empty.addView(
-                    text(
+                    makeText(
                             "No launchable apps found.",
                             16
                     )
             );
 
-            p.addView(empty);
-        }
-
-        for (
-                android.content.pm.ResolveInfo info :
-                apps
-        ) {
-
-            String name =
-                    info.loadLabel(
-                            getPackageManager()
-                    ).toString();
-
-            String packageName =
-                    info.activityInfo.packageName;
-
-            gameCard(
-                    p,
-                    name,
-                    packageName
+            empty.addView(
+                    makeMuted(
+                            "Install an app with a launcher "
+                                    + "activity and try again."
+                    )
             );
+
+            page.addView(empty);
+        } else {
+
+            for (
+                    android.content.pm.ResolveInfo info :
+                    apps
+            ) {
+
+                String name =
+                        info.loadLabel(
+                                getPackageManager()
+                        ).toString();
+
+                String packageName =
+                        info.activityInfo.packageName;
+
+                addGameCard(
+                        page,
+                        name,
+                        packageName
+                );
+            }
         }
 
-        p.addView(
-                muted(
-                        "Long press a game for its profile."
+        page.addView(
+                makeMuted(
+                        "Long press a game to open its profile."
                 )
         );
 
-        content.addView(scroll(p));
+        content.addView(
+                makeScroll(page)
+        );
     }
 
-    private void gameCard(
+    private void addGameCard(
             LinearLayout parent,
             String name,
             String packageName
     ) {
 
-        LinearLayout c = card();
+        LinearLayout card =
+                makeCard();
 
         LinearLayout row =
                 new LinearLayout(this);
 
         row.setOrientation(
-                LinearLayout.HORIZONTAL
-        );
-
-        row.setGravity(
-                Gravity.CENTER_VERTICAL
-        );
-
-        TextView title =
-                text(
-                        "🎮  " + name,
-                        16
-                );
-
-        title.setTypeface(
-                Typeface.DEFAULT,
-                Typeface.BOLD
-        );
-
-        row.addView(
-                title,
-                new LinearLayout.LayoutParams(
-                        0,
-                        -2,
-                        1
-                )
-        );
-
-        Button play = button("PLAY");
-
-        play.setTextSize(11);
-
-        play.setOnClickListener(
-                v -> gameLauncher.launch(packageName)
-        );
-
-        row.addView(
-                play,
-                new LinearLayout.LayoutParams(
-                        95,
-                        52
-                )
-        );
-
-        c.addView(row);
-
-        c.setOnLongClickListener(v -> {
-
-            showProfile(
-                    packageName,
-                    name
-            );
-
-            return true;
-        });
-
-        parent.addView(c);
-    }
-
-    private void showProfile(
-            String packageName,
-            String gameName
-    ) {
-
-        GameProfile profile =
-                profileManager.getProfile(
-                        packageName
-                );
-
-        clear();
-
-        LinearLayout p = page();
-
-        p.addView(
-                title(
-                        "🎮 " + gameName
-                                + "\nGAME PROFILE"
-                )
-        );
-
-        status(
-                p,
-                "DPI",
-                profile.getDpi() == 0
-                        ? deviceMonitor.getDpi()
-                                + " Default"
-                        : String.valueOf(
-                                profile.getDpi()
-                        )
-        );
-
-        status(
-                p,
-                "Brightness",
-                profile.getBrightness() + "%"
-        );
-
-        status(
-                p,
-                "Screen Timeout",
-                profile.getTimeout() + " Minutes"
-        );
-
-        status(
-                p,
-                "Refresh Rate",
-                Math.round(
-                        profile.getRefreshRate()
-                ) + " Hz"
-        );
-
-        status(
-                p,
-                "Gaming Mode",
-                profile.isGamingMode()
-                        ? "ON"
-                        : "OFF"
-        );
-
-        status(
-                p,
-                "DND",
-                profile.isDnd()
-                        ? "ON"
-                        : "OFF"
-        );
-
-        LinearLayout notes = card();
-
-        notes.addView(
-                text("PROFILE NOTES", 15)
-        );
-
-        notes.addView(
-                muted(
-                        "Sensitivity: "
-                                + profile.getSensitivity()
-                                + "\nGraphics/FPS: "
-                                + profile.getGraphics()
-                )
-        );
-
-        p.addView(notes);
-
-        Button save =
-                button("SAVE PROFILE");
-
-        save.setOnClickListener(v -> {
-
-            profileManager.saveProfile(
-                    profile
-            );
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Profile Saved")
-                    .setMessage(
-                            "Game profile saved locally."
-                    )
-                    .setPositiveButton(
-                            "OK",
-                            null
-                    )
-                    .show();
-        });
-
-        p.addView(save);
-
-        Button back =
-                button("← BACK TO GAMES");
-
-        back.setOnClickListener(
-                v -> showGames()
-        );
-
-        p.addView(back);
-
-        content.addView(scroll(p));
-    }
-
-    private void showSettings() {
-        clear();
-
-        LinearLayout p = page();
-
-        p.addView(title("⚙ SETTINGS"));
-
-        p.addView(
-                muted(
-                        "OFFICIAL ANDROID SHORTCUTS"
-                )
-        );
-
-        setting(
-                p,
-                "🖥 Display",
-                "Brightness and display controls",
-                () -> settingsHelper.openDisplay()
-        );
-
-        setting(
-                p,
-                "🔋 Battery",
-                "Battery and battery saver",
-                () -> settingsHelper.openBattery()
-        );
-
-        setting(
-                p,
-                "🔕 Do Not Disturb",
-                "Notification policy access",
-                () -> settingsHelper.openDnd()
-        );
-
-        setting(
-                p,
-                "🎮 Game Mode",
-                "Android Game Mode",
-                () -> settingsHelper.openGameMode()
-        );
-
-        setting(
-                p,
-                "🛠 Developer Options",
-                "Advanced Android controls",
-                () -> settingsHelper.openDeveloper()
-        );
-
-        setting(
-                p,
-                "📱 App Information",
-                "GAME TURBO PRO app information",
-                () -> settingsHelper.openAppInfo()
-        );
-
-        Button theme =
-                button("🎨 THEME / ACCENT");
-
-        theme
+    
