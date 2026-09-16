@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <color name="black">#03050A</color>
+    <color name="surface">#07101A</color>
+    <color name="surface2">#0B1724</color>
+    <color name="surface3">#102235</color>
+
+    <color name="accent">#00F5A0</color>
+    <color name="accent2">#00C8FF</color>
+    <color name="blue">#168CFF</color>
+    <color name="purple">#8B35FF</color>
+    <color name="pink">#FF27D9</color>
+
+    <color name="white">#F5FAFF</color>
+    <color name="muted">#8295AA</color>
+    <color name="line">#19334B</color>
+
+    <color name="danger">#FF4567</color>
+    <color name="warning">#FFC928</color>
+
+</resources>
